@@ -7,6 +7,7 @@ import * as Chartist from 'chartist';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  dateToday = (new Date()).toDateString();
   public lineBigDashboardChartType;
   public gradientStroke;
   public chartColor;

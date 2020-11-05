@@ -152,7 +152,7 @@ export class NavbarComponent implements OnInit {
       }
       return 'Dashboard';
     }
-    fetchResults(){
-      alert("nith")
+    fetchResults(e){
+      console.log(e)
     }
 }
