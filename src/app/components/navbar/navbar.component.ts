@@ -155,9 +155,30 @@ export class NavbarComponent implements OnInit {
               return this.listTitles[item].title;
           }
       }
+      function findGetParameter(parameterName) {
+        var result = null,
+            tmp = [];
+        location.search
+            .substr(1)
+            .split("&")
+            .forEach(function (item) {
+              tmp = item.split("=");
+              if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+            });
+        return result;
+      }
+      if(findGetParameter("s")){
+        var ans = findGetParameter("s") + "'s Stock"
+        return ans;
+      }
       return 'Dashboard';
     }
     fetchResults(e){
-      console.log(e)
+      var stock = ((document.getElementById("stockname") as HTMLInputElement).value);
+      if(e.code=="Enter"){
+        // var stockVal=stock;
+        // console.log(stockVal);
+        window.location.replace(window.location.href + "/?s="+stock)
+      }
     }
 }
