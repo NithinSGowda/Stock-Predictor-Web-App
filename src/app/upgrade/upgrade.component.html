@@ -2,77 +2,55 @@
 </div>
 <div class="main-content">
   <div class="row">
-    <div class="col">
-      <div class="card card-upgrade">
-        <div class="card-header">
-          <h5 class="card-title">Now UI Dashboard PRO Angular</h5>
-            <p class="category">Are you looking for more components? Please check our Premium Version of Now UI Dashboard PRO Angular.</p>
+    <div class="col-md-12">
+      <div class="card ">
+        <div class="card-header ">
+          <div class="col-10 offset-1">
+            <h5>
+              Contact Us!
+            </h5>
+            </div>
         </div>
-        <div class="card-body">
-          <div class="table-responsive table-upgrade">
-            <table class="table">
-              <thead>
-                <th></th>
-                <th class="text-center">Free</th>
-                <th class="text-center">PRO</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Components</td>
-                  <td class="text-center">16</td>
-                  <td class="text-center">160</td>
-                </tr>
-                <tr>
-                  <td>Plugins</td>
-                  <td class="text-center">4</td>
-                  <td class="text-center">12</td>
-                </tr>
-                <tr>
-                  <td>Example Pages</td>
-                  <td class="text-center">7</td>
-                  <td class="text-center">27</td>
-                </tr>
-                <tr>
-                  <td>Documentation</td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_check text-success"></i></td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_check text-success"></i></td>
-                </tr>
-                <tr>
-                  <td>SASS Files</td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_check text-success"></i></td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_check text-success"></i></td>
-                </tr>
-                <tr>
-                  <td>Mini Sidebar</td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_simple-remove text-danger"></i></td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_check text-success"></i></td>
-                </tr>
-                <tr>
-                  <td>Premium Support</td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_simple-remove text-danger"></i></td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_check text-success"></i></td>
-                </tr>
-                <tr>
-                  <td>Login, Register, Pricing, Lock Pages</td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_simple-remove text-danger"></i></td>
-                  <td class="text-center"><i class="now-ui-icons ui-1_check text-success"></i></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td class="text-center">Free</td>
-                  <td class="text-center">Just $59</td>
-                </tr>
-                <tr>
-                  <td class="text-center"></td>
-                  <td class="text-center">
-                    <a href="#" class="btn btn-round btn-default disabled">Current Version</a>
-                  </td>
-                  <td class="text-center">
-                    <a target="_blank" href="https://www.creative-tim.com/product/now-ui-dashboard-pro-angular?ref=nud-angular-upgrade-live" class="btn btn-round btn-primary">Upgrade to PRO</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="card-body ">
+          <div id="map" class="map">
+            <form #f="ngForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+                <div class="col-12 col-sm-6 form-group required">
+                  <label for="name">Name</label>
+                  <input type="text" [disabled]="loading" [(ngModel)]="contact.Name" name="contact.Name" required="" class="form-control text-input"
+                    id="name" placeholder="Name" />
+                </div>
+                <div class="col-12 col-sm-6 form-group required">
+                  <label for="email">E-mail</label>
+                  <input type="email" [disabled]="loading" [(ngModel)]="contact.Email" name="contact.Email" required=""
+                    class="form-control text-input" id="email" placeholder="E-mail" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 form-group required">
+                  <label for="subject">Subject</label>
+                  <input type="text" [disabled]="loading" [(ngModel)]="contact.Subject" name="contact.Subject" required=""
+                    class="form-control text-input" id="subject" placeholder="Subject" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 form-group required">
+                  <label for="message">Message</label>
+                  <textarea type="text" [disabled]="loading" [(ngModel)]="contact.Message" name="contact.Message" required=""
+                    class="form-control" id="message" placeholder="Message..."></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <button type="submit" [disabled]="loading" class="btn btn-success">Send</button>
+                </div>
+              </div>
+            </form>
+            <br>
+            <div class="map">
+              <p class="now-ui-icons ui-1_email-85" ><a href="mailto:something@gmail.com ?subject=feedback"> : something@gmail.com</a></p><br>
+              <p class="now-ui-icons ui-2_chat-round" > : 9876543210</p>
+            </div>
           </div>
         </div>
       </div>

@@ -18,12 +18,12 @@
           <span class="navbar-toggler-bar navbar-kebab"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="collapseExample" [ngbCollapse]="isCollapsed">
-          <form [formGroup]="searchForm" (submit)="fetchResults(searchForm.value)">
+          <form (submit)="fetchResults(searchForm.value)">
             <div class="input-group no-border">
-              <input type="text" value="" class="form-control searchText" placeholder="Search...">
+              <input type="text" id="stockname" class="form-control searchText" placeholder="Search...">
               <div class="input-group-append">
                 <div class="input-group-text">
-                  <i class="now-ui-icons ui-1_zoom-bold"></i>
+                  <i class="now-ui-icons ui-1_zoom-bold" (click)="search()"></i>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, ElementRef, EventEmitter, Output , Input} from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { Router } from '@angular/router';
@@ -17,6 +17,11 @@ export class NavbarComponent implements OnInit {
     private sidebarVisible: boolean;
 
     public isCollapsed = true;
+
+    search() {
+      var stock = ((document.getElementById("stockname") as HTMLInputElement).value);
+      console.log(stock);
+   }
 
     constructor(location: Location,  private element: ElementRef, private router: Router) {
       this.location = location;
