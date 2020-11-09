@@ -178,7 +178,7 @@ export class NavbarComponent implements OnInit {
       if(e.code=="Enter"){
         // var stockVal=stock;
         // console.log(stockVal);
-        window.location.replace(window.location.href + "/?s="+stock)
+        window.location.replace("http://localhost:4200/dashboard?s="+stock)
       }
     }
 }
