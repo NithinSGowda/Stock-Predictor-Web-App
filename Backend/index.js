@@ -12,6 +12,7 @@ const secret = config.secretKey;
 const cookieParser = require('cookie-parser');
 var mainRouter = require('./routes/mainRouter');
 var userData = require('./routes/userData');
+const uri = config.mongourl;
 
 
 
@@ -29,8 +30,7 @@ app.use(bodyParser.json())
 
 app.use('/user', userData);
 
-const url = config.mongourl;
-const connect = mongoose.connect(url);
+const connect = mongoose.connect(uri);
 connect.then((db)=>{
   console.log("connected to db");
 },

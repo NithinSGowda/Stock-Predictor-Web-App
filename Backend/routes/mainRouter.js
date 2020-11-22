@@ -1,7 +1,9 @@
-const withAuth = require('../auth');
 const express = require('express');
-var User = require('../models/user');
-var Stock = require('../models/user');
+const uri = "mongodb+srv://nithin:9481543420@cluster0.nnsbb.mongodb.net/stockApp?retryWrites=true&w=majority";
+const mongoose = require('mongoose');
+// const arraySchema = new Schema({ name: String });
+const stockSchema = new mongoose.Schema({ name: 'string', arr1: 'string', arr2: 'string', arr3: 'string', arr4: 'string', accuracy: 'string' });
+const stockModel = mongoose.model('stocks', stockSchema);
 const bodyParser = require('body-parser')
 
 const mainRouter = express.Router();
@@ -9,34 +11,51 @@ mainRouter.use(bodyParser.json());
 
 mainRouter.route('/:sname')
 .get((req, res, next)=>{
-    res.statusCode=200;
-    res.setHeader("Content-type","application/json");
-    // var spawn = require("child_process").spawn; 
 
-    // var process = spawn('python',["hello.py"] ); 
-    // process.stdout.on('data', function(data) { 
-    //     console.log("Came out");
-    //     var stocks = data.toString(); 
-    //     res.json(stocks);
-    // }) 
+    stockModel.find({name: req.params.sname}, function(err, doc){
+        var obj = JSON.parse(JSON.stringify(doc));
+        res.statusCode=200;
+        var resObj={}
+        res.setHeader("Content-Type","applicaton/json");
+        if(doc!=""){
+            console.log("found in cache");
+            resObj=obj[0];
+            resObj.arr1 = (resObj.arr1).split(',')
+            resObj.arr1 = (resObj.arr1).map(x => parseInt(x))
+            resObj.arr2 = (resObj.arr2).split(',')
+            resObj.arr2 = (resObj.arr2).map(x => parseInt(x))
+            resObj.arr3 = (resObj.arr3).split(',')
+            resObj.arr3 = (resObj.arr3).map(x => parseInt(x))
+            resObj.arr4 = (resObj.arr4).split(',')
+            resObj.arr4 = (resObj.arr4).map(x => parseInt(x))
+            delete resObj._id
+            delete resObj.__v
 
-    const {spawn} = require('child_process');
-    const python = spawn('python', ['hello.py']);
-    var dataToSend;
-    // collect data from script
-    python.stdout.on('data', function (data) {
-        console.log('Pipe data from python script ...', dataToSend);
-        dataToSend = data.toString();
-    });
-    // in close event we are sure that stream from child process is closed
-    python.on('close', (code) => {
-        console.log(`child process close all stdio with code ${code}`);
-        // send data to browser
-        res.send(dataToSend)
-    })
-
-
-    // var stocks = new Array(60, 40, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100)
-    
+            res.send(resObj);
+        }else{
+            const {spawn} = require('child_process');
+            const python = spawn('python', ['hello.py',req.params.sname]);
+            var dataToSend;
+            // collect data from script
+            python.stdout.on('data', function (data) {
+                console.log('Pipe data from python script ...', dataToSend);
+                dataToSend = data.toString();
+            });
+            // in close event we are sure that stream from child process is closed
+            python.on('close', (code) => {
+                console.log(`child process close all stdio with code ${code}`);
+                obj=JSON.parse(dataToSend)
+                obj.arr1=(obj.arr1).toString()
+                obj.arr2=(obj.arr2).toString()
+                obj.arr3=(obj.arr3).toString()
+                obj.arr4=(obj.arr4).toString()
+                stockModel.create(obj, function (err, objectInserted) {
+                    if (err) return console.log(err);
+                    console.log(objectInserted)
+                    res.send(dataToSend)
+                });
+            })
+        }
+    });    
 })
 module.exports = mainRouter;

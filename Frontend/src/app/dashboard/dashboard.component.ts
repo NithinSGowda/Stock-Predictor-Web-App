@@ -781,6 +781,6 @@ export class DashboardComponent implements OnInit {
         this.lineChartGradientsNumbersType = 'bar';
         clearInterval(interval1)
       }
-    },500)
+    },100)
   }
 }
