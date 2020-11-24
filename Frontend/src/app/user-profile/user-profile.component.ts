@@ -124,5 +124,6 @@ export class UserProfileComponent implements OnInit {
       }
       chart.render();
     });
+
   }
 }
