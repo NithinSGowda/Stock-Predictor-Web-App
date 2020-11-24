@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
+import { range } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,6 +44,10 @@ export class DashboardComponent implements OnInit {
   public fetchResult2:Array<any>;
   public fetchResult3:Array<any>;
   public fetchResult4:Array<any>;
+  public fetchResult5:Array<any>;
+  public fetchResult6:Array<any>;
+  public fetchResult11:Array<any>;
+  public fetchResult12:Array<any>;
 
   public readyState = false
 
@@ -68,20 +73,39 @@ export class DashboardComponent implements OnInit {
   constructor() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-
     var stock = urlParams.get('s')
-    fetch("http://localhost:5000/data/"+stock)
+    if(stock){
+      var i=0
+      fetch("http://localhost:5000/data/"+stock)
       .then(response => response.text())
       .then(res => {
-        this.fetchResult1=(JSON.parse(res)).arr1
-        this.fetchResult2=(JSON.parse(res)).arr2
-        this.fetchResult3=(JSON.parse(res)).arr3
-        this.fetchResult4=(JSON.parse(res)).arr4
-        console.table(JSON.parse(res));
-        
+        this.fetchResult1=(JSON.parse(res)).ClosingPrice
+        this.fetchResult2=(JSON.parse(res)).Volume
+        this.fetchResult3=(JSON.parse(res)).LSTM
+        this.fetchResult4=(JSON.parse(res)).LstmAccuracy
+        this.fetchResult5=(JSON.parse(res)).Arima
+        this.fetchResult6=(JSON.parse(res)).ArimaAccuracy
+        this.fetchResult11=[...this.fetchResult1]
+        this.fetchResult12=[...this.fetchResult1]
+        // console.table(JSON.parse(res));
+        for(i=0;i<12;i++){
+          if(i<11){
+            this.fetchResult12[i]=NaN
+            this.fetchResult11[i]=this.fetchResult1[i]
+            
+          }else{
+            this.fetchResult11[i]=NaN
+            this.fetchResult12[i]=this.fetchResult1[i]
+          }
+        }
+        this.fetchResult12[10]=this.fetchResult1[10]
+
         this.readyState=true
+        document.querySelector('.lstm').innerHTML="Just Updated with accuracy "+this.fetchResult4+"%"
+        document.querySelector('.arima').innerHTML="Just Updated with accuracy "+this.fetchResult6+"%"
       })
       .catch(error => console.log('error', error));
+    }
   }
 
   ngOnInit() {
@@ -109,10 +133,8 @@ export class DashboardComponent implements OnInit {
           fill: true,
 
           borderWidth: 2,
-          data: [30,40,20,50,60,20,80,20,40,NaN,NaN,NaN]
+          data: [0,0,0,0,0,0,0,0,0,0,NaN,NaN]
         },
-
-        // Prdeicted
         {
           label: "Predicted Value",
           pointBorderWidth: 1,
@@ -123,7 +145,7 @@ export class DashboardComponent implements OnInit {
           borderColor: '#1df500',
           backgroundColor: this.gradientFill,
           borderWidth: 2,
-          data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,40,60,40,20]
+          data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0,0]
         }
       ];
 
@@ -328,7 +350,7 @@ export class DashboardComponent implements OnInit {
           backgroundColor: this.gradientFill
         }
       ];
-    this.lineChartLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    this.lineChartLabels = ["Day 1","Day 2","Day 3","Day 4","Day 5","Day 6","Day 7","Day 8","Day 9","Day 10"];
     this.lineChartOptions = this.gradientChartOptionsConfiguration;
 
     this.lineChartType = 'line';
@@ -364,7 +386,7 @@ export class DashboardComponent implements OnInit {
           backgroundColor: this.gradientFill
         }
       ];
-    this.lineChartWithNumbersAndGridLabels = ["12pm,", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"];
+    this.lineChartWithNumbersAndGridLabels = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"];
     this.lineChartWithNumbersAndGridOptions = this.gradientChartOptionsConfigurationWithNumbersAndGrid;
 
     this.lineChartWithNumbersAndGridType = 'line';
@@ -473,10 +495,11 @@ export class DashboardComponent implements OnInit {
               fill: true,
 
               borderWidth: 2,
-              data: this.fetchResult1
+              data: this.fetchResult11
+              // data: [20,40,20,40,20,40,20,40,20,40,20,NaN]
             },
 
-            // Prdeicted
+            // Predicted
             {
               label: "Predicted Value",
               pointBorderWidth: 1,
@@ -487,7 +510,7 @@ export class DashboardComponent implements OnInit {
               borderColor: '#1df500',
               backgroundColor: this.gradientFill,
               borderWidth: 2,
-              data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,40,60,40,20]
+              data: this.fetchResult12
             }
           ];
           
@@ -673,14 +696,14 @@ export class DashboardComponent implements OnInit {
 
         this.lineChartData = [
             {
-              label: "Active Users",
+              label: "$",
               pointBorderWidth: 2,
               pointHoverRadius: 4,
               pointHoverBorderWidth: 1,
               pointRadius: 4,
               fill: true,
               borderWidth: 2,
-              data: this.fetchResult2
+              data: this.fetchResult3
             }
           ];
           this.lineChartColors = [
@@ -691,7 +714,6 @@ export class DashboardComponent implements OnInit {
             backgroundColor: this.gradientFill
           }
         ];
-        this.lineChartLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         this.lineChartOptions = this.gradientChartOptionsConfiguration;
 
         this.lineChartType = 'line';
@@ -709,14 +731,14 @@ export class DashboardComponent implements OnInit {
 
         this.lineChartWithNumbersAndGridData = [
             {
-              label: "Email Stats",
+              label: "$",
               pointBorderWidth: 2,
               pointHoverRadius: 4,
               pointHoverBorderWidth: 1,
               pointRadius: 4,
               fill: true,
               borderWidth: 2,
-              data: this.fetchResult3
+              data: this.fetchResult5
             }
           ];
           this.lineChartWithNumbersAndGridColors = [
@@ -727,7 +749,6 @@ export class DashboardComponent implements OnInit {
             backgroundColor: this.gradientFill
           }
         ];
-        this.lineChartWithNumbersAndGridLabels = ["12pm,", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"];
         this.lineChartWithNumbersAndGridOptions = this.gradientChartOptionsConfigurationWithNumbersAndGrid;
 
         this.lineChartWithNumbersAndGridType = 'line';
@@ -745,14 +766,14 @@ export class DashboardComponent implements OnInit {
 
         this.lineChartGradientsNumbersData = [
             {
-              label: "Active Countries",
+              label: "Volume",
               pointBorderWidth: 2,
               pointHoverRadius: 4,
               pointHoverBorderWidth: 1,
               pointRadius: 4,
               fill: true,
               borderWidth: 1,
-              data: this.fetchResult4
+              data: this.fetchResult2
             }
           ];
         this.lineChartGradientsNumbersColors = [

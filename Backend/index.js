@@ -5,10 +5,8 @@ const bodyParser = require('body-parser')
 const passport = require('passport');
 const cookieSession = require('cookie-session')
 require('./passport-setup');
-var config = require('./config');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const secret = config.secretKey;
 const cookieParser = require('cookie-parser');
 var mainRouter = require('./routes/mainRouter');
 var userData = require('./routes/userData');
@@ -26,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // app.use('/argon-design-system-react', express.static('public/edulogger'))
-// app.use('/', express.static('public/edulogger'));
+app.use('/', express.static('public/edulogger'));
 
 app.use('/user', userData);
 
