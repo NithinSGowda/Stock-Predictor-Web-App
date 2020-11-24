@@ -1,5 +1,5 @@
 const express = require('express');
-const uri = "mongodb+srv://nithin:9481543420@cluster0.nnsbb.mongodb.net/stockApp?retryWrites=true&w=majority";
+const uri = "mongodb+srv://stockapp:88888888@cluster0.o8iuu.mongodb.net/stockApp?retryWrites=true&w=majority";
 const mongoose = require('mongoose');
 // const arraySchema = new Schema({ name: String });
 const stockSchema = new mongoose.Schema({ name: 'string', arr1: 'string', arr2: 'string', arr3: 'string', arr4: 'string', accuracy: 'string' });

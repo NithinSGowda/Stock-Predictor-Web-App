@@ -12,7 +12,7 @@ const secret = config.secretKey;
 const cookieParser = require('cookie-parser');
 var mainRouter = require('./routes/mainRouter');
 var userData = require('./routes/userData');
-const uri = config.mongourl;
+const uri = "mongodb+srv://stockapp:88888888@cluster0.o8iuu.mongodb.net/stockApp?retryWrites=true&w=majority";
 
 
 
