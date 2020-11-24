@@ -96,11 +96,12 @@ export class DashboardComponent implements OnInit {
     this.gradientFill = this.ctx.createLinearGradient(0, 200, 0, 50);
     this.gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     this.gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
+    
 
     this.lineBigDashboardChartData = [
-        {
-          label: "Data",
-
+      // Actual  
+      {
+          label: "Prev Value ",
           pointBorderWidth: 1,
           pointHoverRadius: 7,
           pointHoverBorderWidth: 2,
@@ -108,9 +109,25 @@ export class DashboardComponent implements OnInit {
           fill: true,
 
           borderWidth: 2,
-          data: [0,0,0,0,0,0,0,0,0,0,0,0]
+          data: [30,40,20,50,60,20,80,20,40,NaN,NaN,NaN]
+        },
+
+        // Prdeicted
+        {
+          label: "Predicted Value",
+          pointBorderWidth: 1,
+          pointHoverRadius: 7,
+          pointHoverBorderWidth: 2,
+          pointRadius: 5,
+          fill: true,
+          borderColor: '#1df500',
+          backgroundColor: this.gradientFill,
+          borderWidth: 2,
+          data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,40,60,40,20]
         }
       ];
+
+
       this.lineBigDashboardChartColors = [
         {
           backgroundColor: this.gradientFill,
@@ -457,6 +474,20 @@ export class DashboardComponent implements OnInit {
 
               borderWidth: 2,
               data: this.fetchResult1
+            },
+
+            // Prdeicted
+            {
+              label: "Predicted Value",
+              pointBorderWidth: 1,
+              pointHoverRadius: 7,
+              pointHoverBorderWidth: 2,
+              pointRadius: 5,
+              fill: true,
+              borderColor: '#1df500',
+              backgroundColor: this.gradientFill,
+              borderWidth: 2,
+              data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,40,60,40,20]
             }
           ];
           

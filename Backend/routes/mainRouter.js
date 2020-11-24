@@ -5,14 +5,17 @@ const mongoose = require('mongoose');
 const stockSchema = new mongoose.Schema({ name: 'string', arr1: 'string', arr2: 'string', arr3: 'string', arr4: 'string', accuracy: 'string' });
 const stockModel = mongoose.model('stocks', stockSchema);
 const bodyParser = require('body-parser')
+const fs = require('fs');
+
 
 const mainRouter = express.Router();
 mainRouter.use(bodyParser.json());
 
 mainRouter.route('/:sname')
 .get((req, res, next)=>{
+    var stockName = (req.params.sname).toUpperCase();
 
-    stockModel.find({name: req.params.sname}, function(err, doc){
+    stockModel.find({name: stockName}, function(err, doc){
         var obj = JSON.parse(JSON.stringify(doc));
         res.statusCode=200;
         var resObj={}
@@ -34,26 +37,28 @@ mainRouter.route('/:sname')
             res.send(resObj);
         }else{
             const {spawn} = require('child_process');
-            const python = spawn('python', ['hello.py',req.params.sname]);
+            const python = spawn('python', ['PYTHON/final.py',stockName]);
             var dataToSend;
-            // collect data from script
+
             python.stdout.on('data', function (data) {
-                console.log('Pipe data from python script ...', dataToSend);
-                dataToSend = data.toString();
+                console.log('Pipe data from python script ...');
             });
-            // in close event we are sure that stream from child process is closed
+
             python.on('close', (code) => {
                 console.log(`child process close all stdio with code ${code}`);
-                obj=JSON.parse(dataToSend)
+
+                obj=JSON.parse(fs.readFileSync('PYTHON/data_file.json'))
+                let obj2={}
                 obj.arr1=(obj.arr1).toString()
                 obj.arr2=(obj.arr2).toString()
-                obj.arr3=(obj.arr3).toString()
-                obj.arr4=(obj.arr4).toString()
-                stockModel.create(obj, function (err, objectInserted) {
-                    if (err) return console.log(err);
-                    console.log(objectInserted)
-                    res.send(dataToSend)
-                });
+                obj2.Arima=(obj.Arima).toString()
+                obj2.Volume=(obj.Volume).toString()
+                // stockModel.create(obj, function (err, objectInserted) {
+                //     if (err) return console.log(err);
+                //     console.log(objectInserted)
+                //     res.send(obj)
+                // });
+                res.send(obj)
             })
         }
     });    
