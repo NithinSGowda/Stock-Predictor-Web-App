@@ -11,6 +11,16 @@ var FuzzySearch = require('fuzzy-search');
 const mainRouter = express.Router();
 mainRouter.use(bodyParser.json());
 
+mainRouter.route('/recent')
+.get((req, res, next)=>{
+    res.setHeader("Content-Type","applicaton/json");
+    res.statusCode=200;   
+    stockModel.find({}).sort('-updatedAt').limit(6).exec(function(err, doc){
+        console.log(doc);
+        res.send(doc);
+    })
+})
+
 mainRouter.route('/:sname')
 .get((req, res, next)=>{
     res.setHeader("Content-Type","applicaton/json");
@@ -27,12 +37,15 @@ mainRouter.route('/:sname')
     stockName=result[0].symbol
     var dateObj=new Date()
     dateObj.setDate(dateObj.getDate() - 1);  
-    stockModel.find({ $query: {Name: stockName, updatedAt: {$gt: dateObj}}, $orderby: { updatedAt : -1 } }, function(err, doc){
+    stockModel.find({ $query: {Name: stockName, createdAt: {$gt: dateObj}}, $orderby: { createdAt : -1 } }, function(err, doc){
         var obj = JSON.parse(JSON.stringify(doc));
         var resObj={}
         if(doc!=""){
             console.log("found in cache");
             resObj=obj[0];
+            stockModel.update({_id: resObj._id}, {
+                updatedAt: new Date()
+            },(err, affected, resp)=>{console.log(resp);})
             resObj.ClosingPrice = (resObj.ClosingPrice).split(',')
             resObj.ClosingPrice = (resObj.ClosingPrice).map(x => parseInt(x))
             resObj.Volume = (resObj.Volume).split(',')
@@ -113,4 +126,5 @@ mainRouter.route('/full/:sname')
     res.redirect("http://stockpredict.ml")
 }
 })
+
 module.exports = mainRouter;
