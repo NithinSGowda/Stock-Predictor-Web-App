@@ -175,7 +175,7 @@ export class NavbarComponent implements OnInit {
     }
     fetchResults(e){
       var stock = ((document.getElementById("stockname") as HTMLInputElement).value);
-      if(e.code=="Enter"){
+      if(e.code=="Enter" || e.which ==13|| e.keyCode==13){
         // var stockVal=stock;
         // console.log(stockVal);
         var pathArray = window.location.pathname.split('/');

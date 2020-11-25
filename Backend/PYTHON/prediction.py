@@ -17,7 +17,7 @@ from sklearn import metrics
 
 company=sys.argv[1]
 def predict(company):
-    lstm_file = Path(company+"lstm.h5")
+    lstm_file = Path("PYTHON/"+company+"lstm.h5")
     if lstm_file.is_file():
         lstm = load_model(lstm_file)
     else:

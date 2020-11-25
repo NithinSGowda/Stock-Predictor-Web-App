@@ -41,7 +41,7 @@ mainRouter.route('/:sname')
             res.send(resObj);
         }else{
             const {spawn} = require('child_process');
-            const python = spawn('python3', ['PYTHON/final.py',stockName]);
+            const python = spawn('python3.8', ['PYTHON/final.py',stockName]);
 
             python.stdout.on('data', function (data) {
                 console.log('Pipe data from python script ...');
@@ -67,5 +67,25 @@ mainRouter.route('/:sname')
             })
         }
     });    
+})
+
+mainRouter.route('/full/:sname')
+.get((req, res, next)=>{
+    var stockName = (req.params.sname).toUpperCase();
+    res.setHeader("Content-Type","applicaton/json");
+    res.statusCode=200;
+   
+    const {spawn} = require('child_process');
+    const python = spawn('python3.8', ['PYTHON/chart.py',stockName]);
+
+    python.stdout.on('data', function (data) {
+        console.log('Pipe data from python script ...');
+    });
+
+    python.on('close', (code) => {
+        console.log(`child process close all stdio with code ${code}`);
+        obj=JSON.parse(fs.readFileSync('PYTHON/'+stockName+'prices.json'))
+        res.send(obj)
+    })  
 })
 module.exports = mainRouter;

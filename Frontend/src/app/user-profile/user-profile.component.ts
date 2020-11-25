@@ -33,6 +33,10 @@ export class UserProfileComponent implements OnInit {
     }
 
   ngOnInit() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var stock = urlParams.get('s')
+    stock=stock ? stock : "fb"
     
     let dataPoints1 = [], dataPoints2 = [], dataPoints3 = [];
     let dpsLength = 0;
@@ -40,7 +44,7 @@ export class UserProfileComponent implements OnInit {
       theme: "light2",
       exportEnabled: true,
       title:{
-        text: this.findGetParameter("s") ? "Detailed Stock analysis for "+this.findGetParameter("s") : "Detailed Stock analysis"
+        text: stock ? "Detailed Stock analysis for "+stock : "Detailed Stock analysis"
       },
       subtitles: [{
         text: "USD"
@@ -66,7 +70,7 @@ export class UserProfileComponent implements OnInit {
         axisY: {
           prefix: "$",
           tickLength: 0,
-          title: this.findGetParameter("s") ? this.findGetParameter("s")+" Price" : "Price"
+          title: stock ? stock+" Price" : "Price"
         },
         legend: {
           verticalAlign: "top"
@@ -116,11 +120,11 @@ export class UserProfileComponent implements OnInit {
         }
       }
     });
-    $.getJSON("https://canvasjs.com/data/docs/ethusd2018.json", function(data) {
+    $.getJSON("http://52.172.154.53:8080/data/full/"+stock, function(data) {
       for(var i = 0; i < data.length; i++){
-        dataPoints1.push({x: new Date(data[i].date), y: [Number(data[i].open), Number(data[i].high), Number(data[i].low), Number(data[i].close)]});;
-        dataPoints2.push({x: new Date(data[i].date), y: Number(data[i].volume_usd)});
-        dataPoints3.push({x: new Date(data[i].date), y: Number(data[i].close)});
+        dataPoints1.push({x: new Date(data[i].Date), y: [Number(data[i].Open), Number(data[i].High), Number(data[i].Low), Number(data[i].Close)]});;
+        dataPoints2.push({x: new Date(data[i].Date), y: Number(data[i].Volume)});
+        dataPoints3.push({x: new Date(data[i].Date), y: Number(data[i].Close)});
       }
       chart.render();
     });

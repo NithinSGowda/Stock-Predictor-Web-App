@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
     var stock = urlParams.get('s')
     if(stock){
       var i=0
-      fetch("http://localhost:5000/data/"+stock)
+      fetch("http://52.172.154.53:8080/data/"+stock)
       .then(response => response.text())
       .then(res => {
         this.fetchResult1=(JSON.parse(res)).ClosingPrice
@@ -145,7 +145,7 @@ export class DashboardComponent implements OnInit {
           borderColor: '#1df500',
           backgroundColor: this.gradientFill,
           borderWidth: 2,
-          data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0,0]
+          data: [NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0,0,0]
         }
       ];
 
