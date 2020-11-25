@@ -92,7 +92,10 @@ def predict(company):
     df.reset_index(inplace=True)
     df1.drop(['Open','High','Adj Close','Low'], axis=1, inplace=True)
     df1.drop(df1.index[[-2]],inplace=True)
+    v=list(df.tail(2).Volume)
     volume=list(df1.Volume)
+    volume.pop()
+    volume.append(v[0])
     Price=list(df1.Close)
     Price.append(predicted_list[5])
 
