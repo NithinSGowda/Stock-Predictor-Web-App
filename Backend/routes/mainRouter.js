@@ -6,16 +6,25 @@ const stockSchema = new mongoose.Schema({ Name: 'string', ClosingPrice: 'string'
 const stockModel = mongoose.model('stocks', stockSchema);
 const bodyParser = require('body-parser')
 const fs = require('fs');
-
+var FuzzySearch = require('fuzzy-search');
 
 const mainRouter = express.Router();
 mainRouter.use(bodyParser.json());
 
 mainRouter.route('/:sname')
 .get((req, res, next)=>{
-    var stockName = (req.params.sname).toUpperCase();
     res.setHeader("Content-Type","applicaton/json");
     res.statusCode=200;
+    var stockName = (req.params.sname).toUpperCase();
+    var JSONres=JSON.parse(fs.readFileSync('companies.json'))
+    const searcher = new FuzzySearch(JSONres, [ 'symbol', 'description'], {
+        caseSensitive: true,
+        sort: true
+      });
+    var result = searcher.search(stockName);
+    result=JSON.parse(JSON.stringify(result))
+    if(result!=""){
+    stockName=result[0].symbol
     var dateObj=new Date()
     dateObj.setDate(dateObj.getDate() - 1);  
     stockModel.find({ $query: {Name: stockName, updatedAt: {$gt: dateObj}}, $orderby: { updatedAt : -1 } }, function(err, doc){
@@ -66,7 +75,11 @@ mainRouter.route('/:sname')
                 });
             })
         }
-    });    
+    });   
+    }
+    else{
+        res.redirect("http://stockpredict.ml")
+    } 
 })
 
 mainRouter.route('/full/:sname')
@@ -74,6 +87,15 @@ mainRouter.route('/full/:sname')
     var stockName = (req.params.sname).toUpperCase();
     res.setHeader("Content-Type","applicaton/json");
     res.statusCode=200;
+    var JSONres=JSON.parse(fs.readFileSync('companies.json'))
+    const searcher = new FuzzySearch(JSONres, [ 'symbol', 'description'], {
+        caseSensitive: true,
+        sort: true
+      });
+    const result = searcher.search(stockName);
+    result=JSON.parse(JSON.stringify(result))
+    if(result!=""){
+    stockName=result[0].symbol
    
     const {spawn} = require('child_process');
     const python = spawn('python3.8', ['PYTHON/chart.py',stockName]);
@@ -87,5 +109,8 @@ mainRouter.route('/full/:sname')
         obj=JSON.parse(fs.readFileSync('PYTHON/'+stockName+'prices.json'))
         res.send(obj)
     })  
+}else{
+    res.redirect("http://stockpredict.ml")
+}
 })
 module.exports = mainRouter;
