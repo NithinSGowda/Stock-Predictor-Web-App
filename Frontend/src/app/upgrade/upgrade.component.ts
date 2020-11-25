@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
-  selector: 'app-upgrade',
+  selector: 'app-contactus',
   templateUrl: './upgrade.component.html',
   styleUrls: ['./upgrade.component.scss']
 })
