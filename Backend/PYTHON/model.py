@@ -52,7 +52,7 @@ def model_creation(company):
 	#Compiling and fitting the model
 	model.compile(optimizer = 'adam', loss = 'mean_squared_error')
 	model.fit(X_train, y_train, epochs = 25, batch_size = 32)
-	model.save(company+"lstm.h5")
+	model.save("PYTHON/"+company+"lstm.h5")
 
 if __name__ == '__main__':
     model_creation(company)
