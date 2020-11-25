@@ -41,7 +41,7 @@ export class UserProfileComponent implements OnInit {
     let dataPoints1 = [], dataPoints2 = [], dataPoints3 = [];
     let dpsLength = 0;
     let chart = new CanvasJS.StockChart("chartContainer",{
-      theme: "light2",
+      theme: "dark2",
       exportEnabled: true,
       title:{
         text: stock ? "Detailed Stock analysis for "+stock : "Detailed Stock analysis"
