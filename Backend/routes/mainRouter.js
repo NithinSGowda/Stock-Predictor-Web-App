@@ -7,6 +7,7 @@ const stockModel = mongoose.model('stocks', stockSchema);
 const bodyParser = require('body-parser')
 const fs = require('fs');
 var FuzzySearch = require('fuzzy-search');
+var unirest = require('unirest');
 
 const mainRouter = express.Router();
 mainRouter.use(bodyParser.json());
@@ -18,6 +19,17 @@ mainRouter.route('/recent')
     stockModel.find({}).sort('-updatedAt').limit(15).exec(function(err, doc){
         res.send(doc);
     })
+})
+
+mainRouter.route('/news/:stock')
+.get((req, res, next)=>{
+    res.setHeader("Content-Type","applicaton/json");
+    res.statusCode=200;   
+    var req = unirest('GET', 'https://newsapi.org/v2/everything?q='+req.params.stock+'&from=2020-11-15&sortBy=popularity&apiKey=4b82feb2582043058dfdfb45ead95157')
+    .end(function (resNews) { 
+        if (resNews.error) throw new Error(resNews.error); 
+        res.send((resNews))
+    });
 })
 
 mainRouter.route('/:sname')
