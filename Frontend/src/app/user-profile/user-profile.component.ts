@@ -120,7 +120,7 @@ export class UserProfileComponent implements OnInit {
         }
       }
     });
-    $.getJSON("http://52.172.154.53:8080/data/full/"+stock, function(data) {
+    $.getJSON("https://api.stockpredict.ml/data/full/"+stock, function(data) {
       for(var i = 0; i < data.length; i++){
         dataPoints1.push({x: new Date(data[i].Date), y: [Number(data[i].Open), Number(data[i].High), Number(data[i].Low), Number(data[i].Close)]});;
         dataPoints2.push({x: new Date(data[i].Date), y: Number(data[i].Volume)});
