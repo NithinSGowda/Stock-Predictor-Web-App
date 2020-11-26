@@ -88,7 +88,7 @@ export class DashboardComponent implements OnInit {
       loaderDiv.style.display='flex'
       Stock=stock;
       var i=0
-      fetch("http://localhost:8080/data/"+stock)
+      fetch("https://api.stockpredict.ml/data/"+stock)
        .then(response => response.text())
       .then(res => {
         loaderDiv.style.display='none'
@@ -141,7 +141,7 @@ export class DashboardComponent implements OnInit {
   var sym;
   var j;
   var arr :Array<string>=[];
-  fetch("http://localhost:8080/data/recent/")
+  fetch("https://api.stockpredict.ml/data/recent/")
    .then(response => response.text())
   .then(res3 => {
     var obj=JSON.parse(res3)
