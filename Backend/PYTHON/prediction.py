@@ -92,11 +92,12 @@ def predict(company):
     df.reset_index(inplace=True)
     df1.drop(['Open','High','Adj Close','Low'], axis=1, inplace=True)
     df1.drop(df1.index[[-1]],inplace=True)
-    v=list(df.tail(2).Volume)
+    v=list(df.tail(1).Close)
     volume=list(df1.Volume)
     Price=list(df1.Close)
     Price.pop()
-    Price.append(predicted_list[5])
+    Price.append(v[0])
+    Price.append(predicted_list[3])
 
     with open("PYTHON/"+company+".json", "w") as write_file:
         json.dump({ 'Name' : company,
