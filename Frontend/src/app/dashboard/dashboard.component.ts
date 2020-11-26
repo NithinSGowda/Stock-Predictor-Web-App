@@ -122,9 +122,10 @@ export class DashboardComponent implements OnInit {
 
     if(Stock){
       var news;
+      Stock = Stock ? Stock : "stock"
       fetch('https://api.stockpredict.ml/data/news/'+Stock).then(response => response.text())
       .then(res2 => {
-        var obj=JSON.parse(res2)
+        var obj=JSON.parse(res2).body
         i=1;
         for(news in obj.articles){
           if(i>5){
