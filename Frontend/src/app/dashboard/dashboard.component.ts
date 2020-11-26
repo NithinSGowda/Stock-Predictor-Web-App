@@ -74,16 +74,24 @@ export class DashboardComponent implements OnInit {
     }
   }
   constructor() {
+    
+  }
+
+  ngOnInit() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     var Stock="stocks"
     var stock = urlParams.get('s')
+    const loaderDiv = <HTMLElement>document.querySelector('.loaderDiv')
+    loaderDiv.style.display='none'
     if(stock){
+      loaderDiv.style.display='flex'
       Stock=stock;
       var i=0
       fetch("http://localhost:8080/data/"+stock)
        .then(response => response.text())
       .then(res => {
+        loaderDiv.style.display='none'
         this.fetchResult1=(JSON.parse(res)).ClosingPrice
         this.fetchResult2=(JSON.parse(res)).Volume
         this.fetchResult3=(JSON.parse(res)).LSTM
@@ -114,7 +122,7 @@ export class DashboardComponent implements OnInit {
 
     if(Stock){
       var news;
-      fetch('https://newsapi.org/v2/everything?q='+Stock+'&from=2020-11-15&sortBy=publishedAt&apiKey=4b82feb2582043058dfdfb45ead95157').then(response => response.text())
+      fetch('https://newsapi.org/v2/everything?q='+Stock+'&from=2020-11-15&sortBy=popularity&apiKey=4b82feb2582043058dfdfb45ead95157').then(response => response.text())
       .then(res2 => {
         var obj=JSON.parse(res2)
         i=1;
@@ -139,6 +147,7 @@ export class DashboardComponent implements OnInit {
     var obj=JSON.parse(res3)
     i=1;
     j=1;
+    
     for(sym in obj){
       if(i>8){
         break;
@@ -160,9 +169,7 @@ export class DashboardComponent implements OnInit {
     }
     }
   })
-  }
 
-  ngOnInit() {
     this.chartColor = "#FFFFFF";
     this.canvas = document.getElementById("bigDashboardChart");
     this.ctx = this.canvas.getContext("2d");
