@@ -7,7 +7,8 @@ import { range } from 'rxjs';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {  
+
+export class DashboardComponent implements OnInit {
   dateToday = (new Date()).toDateString();
   public lineBigDashboardChartType;
   public gradientStroke;
@@ -51,6 +52,8 @@ export class DashboardComponent implements OnInit {
 
   public readyState = false
 
+
+
   // events
   public chartClicked(e:any):void {
     console.log(e);
@@ -73,11 +76,13 @@ export class DashboardComponent implements OnInit {
   constructor() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
+    var Stock="stocks"
     var stock = urlParams.get('s')
     if(stock){
+      Stock=stock;
       var i=0
       fetch("http://52.172.154.53:8080/data/"+stock)
-      .then(response => response.text())
+       .then(response => response.text())
       .then(res => {
         this.fetchResult1=(JSON.parse(res)).ClosingPrice
         this.fetchResult2=(JSON.parse(res)).Volume
@@ -87,12 +92,12 @@ export class DashboardComponent implements OnInit {
         this.fetchResult6=(JSON.parse(res)).ArimaAccuracy
         this.fetchResult11=[...this.fetchResult1]
         this.fetchResult12=[...this.fetchResult1]
-        // console.table(JSON.parse(res));
+    //     // console.table(JSON.parse(res));
         for(i=0;i<12;i++){
           if(i<11){
             this.fetchResult12[i]=NaN
             this.fetchResult11[i]=this.fetchResult1[i]
-            
+
           }else{
             this.fetchResult11[i]=NaN
             this.fetchResult12[i]=this.fetchResult1[i]
@@ -106,6 +111,54 @@ export class DashboardComponent implements OnInit {
       })
       .catch(error => console.log('error', error));
     }
+
+    if(Stock){
+      var news;
+      fetch('https://newsapi.org/v2/everything?q='+Stock+'&from=2020-11-15&sortBy=publishedAt&apiKey=4b82feb2582043058dfdfb45ead95157').then(response => response.text())
+      .then(res2 => {
+        var obj=JSON.parse(res2)
+        i=1;
+        for(news in obj.articles){
+          if(i>5){
+            break;
+          }
+          document.querySelector('.News'+i).innerHTML=obj.articles[news].title
+          document.querySelector('.News'+i).setAttribute("href",obj.articles[news].url)
+          document.querySelector('.Des'+i).innerHTML=obj.articles[news].description
+          i++;
+        }
+      })
+  }
+
+  var sym;
+  var j;
+  var arr :Array<string>=[];
+  fetch("http://52.172.154.53:8080/data/recent/")
+   .then(response => response.text())
+  .then(res3 => {
+    var obj=JSON.parse(res3)
+    i=1;
+    j=1;
+    for(sym in obj){
+      if(i>8){
+        break;
+      }
+      if(arr.includes(obj[i].Name)){
+        i++;
+      }
+      else{
+      document.querySelector('.name'+j).innerHTML=obj[i].Name
+      arr.push(obj[i].Name)
+      var ClosingPricelist=obj[i].ClosingPrice.split(',')
+      var Lstmlist=obj[i].LSTM.split(',')
+      document.querySelector('.today'+j).innerHTML=(Math.round( ClosingPricelist[ClosingPricelist.length - 1] * 100 + Number.EPSILON ) / 100).toString()
+      document.querySelector('.tmrw'+j).innerHTML=(Math.round( Lstmlist[1] * 100 + Number.EPSILON ) / 100).toString()
+      document.querySelector('.dtmrw'+j).innerHTML=(Math.round( Lstmlist[2] * 100 + Number.EPSILON ) / 100).toString()
+      i++;
+      j++;
+    }
+    }
+  })
   }
 
   ngOnInit() {
@@ -120,10 +173,10 @@ export class DashboardComponent implements OnInit {
     this.gradientFill = this.ctx.createLinearGradient(0, 200, 0, 50);
     this.gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     this.gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
-    
+
 
     this.lineBigDashboardChartData = [
-      // Actual  
+      // Actual
       {
           label: "Prev Value ",
           pointBorderWidth: 1,
@@ -368,7 +421,7 @@ export class DashboardComponent implements OnInit {
 
     this.lineChartWithNumbersAndGridData = [
         {
-          label: "Email Stats",
+          label: "Predicted Cost",
             pointBorderWidth: 2,
             pointHoverRadius: 4,
             pointHoverBorderWidth: 1,
@@ -513,7 +566,7 @@ export class DashboardComponent implements OnInit {
               data: this.fetchResult12
             }
           ];
-          
+
           this.lineBigDashboardChartColors = [
           {
             backgroundColor: this.gradientFill,
@@ -829,10 +882,10 @@ export class DashboardComponent implements OnInit {
               }
             }
           }
-
         this.lineChartGradientsNumbersType = 'bar';
         clearInterval(interval1)
       }
     },100)
+
   }
 }
