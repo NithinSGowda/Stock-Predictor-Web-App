@@ -15,7 +15,7 @@ mainRouter.route('/recent')
 .get((req, res, next)=>{
     res.setHeader("Content-Type","applicaton/json");
     res.statusCode=200;   
-    stockModel.find({}).sort('-updatedAt').limit(8).exec(function(err, doc){
+    stockModel.find({}).sort('-updatedAt').limit(15).exec(function(err, doc){
         res.send(doc);
     })
 })
