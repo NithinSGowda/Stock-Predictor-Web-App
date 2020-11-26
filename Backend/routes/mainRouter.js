@@ -96,7 +96,7 @@ mainRouter.route('/:sname')
     });   
     }
     else{
-        res.redirect("http://stockpredict.ml")
+        res.redirect("https://stockpredict.ml")
     } 
 })
 
@@ -123,12 +123,15 @@ mainRouter.route('/full/:sname')
     });
 
     python.on('close', (code) => {
+        if(code!=0){
+            res.redirect("https://stockpredict.ml")
+        }
         console.log(`child process close all stdio with code ${code}`);
         obj=JSON.parse(fs.readFileSync('PYTHON/'+stockName+'prices.json'))
         res.send(obj)
     })  
 }else{
-    res.redirect("http://stockpredict.ml")
+    res.redirect("https://stockpredict.ml")
 }
 })
 
