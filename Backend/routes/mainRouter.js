@@ -25,7 +25,7 @@ mainRouter.route('/news/:stock')
 .get((req, res, next)=>{
     res.setHeader("Content-Type","applicaton/json");
     res.statusCode=200;   
-    var req = unirest('GET', 'https://newsapi.org/v2/everything?q='+req.params.stock+'&from=2020-11-15&sortBy=popularity&apiKey=4b82feb2582043058dfdfb45ead95157')
+    var req = unirest('GET', 'https://newsapi.org/v2/everything?q='+req.params.stock+'&from=2020-11-15&sortBy=popularity&language=en&apiKey=4b82feb2582043058dfdfb45ead95157')
     .end(function (resNews) { 
         if (resNews.error) throw new Error(resNews.error); 
         res.send((resNews))
