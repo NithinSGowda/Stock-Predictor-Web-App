@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
     if(stock){
       Stock=stock;
       var i=0
-      fetch("http://52.172.154.53:8080/data/"+stock)
+      fetch("http://localhost:8080/data/"+stock)
        .then(response => response.text())
       .then(res => {
         this.fetchResult1=(JSON.parse(res)).ClosingPrice
@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit {
   var sym;
   var j;
   var arr :Array<string>=[];
-  fetch("http://52.172.154.53:8080/data/recent/")
+  fetch("http://localhost:8080/data/recent/")
    .then(response => response.text())
   .then(res3 => {
     var obj=JSON.parse(res3)

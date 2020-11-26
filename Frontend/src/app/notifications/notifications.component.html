@@ -14,11 +14,24 @@
           <h4 class="card-title">API basics</h4>
         </div>
         <div class="card-body">
-          <h6> - Available only on GET requests </h6>
-          <div >
-            <a class="text-info" href="/apidoc">
-              - Default endpoint : https://ourdomain.com/api/ </a>
+          <h6> - Available on GET requests </h6>
+        </div>
+        <div class="card-body">
+          <h6> - Prediction Data </h6>
+          <div >- Endpoint :
+            <a class="text-info" href="http://api.stockpredict.ml/data/">
+               http://api.stockpredict.ml/data/company_name </a>
           </div>
+        </div>
+        <div class="card-body">
+          <h6> - Previous data (Advanced) </h6>
+          <div >- Endpoint : 
+            <a class="text-info" href="http://api.stockpredict.ml/data/full/">
+              http://api.stockpredict.ml/data/full/company_name </a>
+          </div>
+        </div>
+        <div class="card-body">
+          Note : Requests are cached for 24 hours 
         </div>
       </div>
     </div>
@@ -30,11 +43,11 @@
         <div class="card-body">
           <div >
             <a class="text-info" href="/apidoc">
-              Query: https://ourdomain.com/api/aapl </a>
+              Query: http://api.stockpredict.ml/data/aapl </a>
           </div>
           <div>
             <span>Response :</span>
-            <blockquote>
+            <blockquote style="background-color: #282828;">
               <p class="blockquote blockquote-primary">
                 {{'{'}}<br>
                    "Name":"AAPL",<br>
@@ -76,11 +89,102 @@
                 </h4>
               </div>
             </div>
-            <div class="row">
-              <code ng-include="'xhr.html'">
+            
+            <h6>1) JavaScript XHR</h6>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-10" style="background-color: #282828;border-radius: 10px;">
+              <code style="color: white;">
+                <br>var xhr = new XMLHttpRequest(); <br><br>
+
+                xhr.addEventListener("readystatechange", function() {{'{'}}<br>
+                  if(this.readyState === 4) {{'{'}}<br>
+                    console.log(this.responseText);<br>
+                  {{'}'}}<br>
+                {{'}'}});<br>
+                <br>
+                xhr.open("GET", "http://api.stockpredict.ml/data/company_name");
+                <br><br>
+                xhr.send();<br><br>
+              </code>
+            </div>
+            </div>
+<br><br>
+            <h6>2) Node JS request</h6>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-10" style="background-color:  #282828;border-radius: 10px;">
+              <code style="color: white;">
+                <br>var request = require('request');<br>
+                var options = {{'{'}}<br>
+                  'method': 'GET',<br>
+                  'url': 'http://api.stockpredict.ml/data/company_name',<br>
+                  'headers': {{'{'}}<br>
+                  {{'}'}}<br>
+                {{'}'}};<br>
+                request(options, function (error, response) {{'{'}}<br>
+                  if (error) throw new Error(error);<br>
+                  console.log(response.body);
+                  {{'}'}});<br><br>
+              </code>
+            </div>
+            </div>
+            <br><br>
+            <h6>3) PHP pecl_http</h6>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-10" style="background-color:  #282828;border-radius: 10px;">
+              <code style="color: white;">
+                  <br>$client = new http\Client;
+                  <br>$request = new http\Client\Request;
+                  <br>$request->setRequestUrl('http://api.stockpredict.ml/data/company_name');
+                  <br>$request->setRequestMethod('GET');
+                  <br>$request->setOptions(array());
+<br>
+                  <br>$client->enqueue($request)->send();
+                  <br>$response = $client->getResponse();
+                  <br>echo $response->getBody();<br><br>
+              </code>
+            </div>
+            </div>
+            <br><br>
+            <h6>4) Python Requests</h6>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-10" style="background-color:  #282828;border-radius: 10px;">
+              <code style="color: white;">
+               <br>import requests
+               <br>
+                <br>url = "http://api.stockpredict.ml/data/company_name"
+<br>
+                <br>response = requests.request("GET", url)
+<br>
+                <br>print(response.text)<br><br>
 
               </code>
             </div>
+            </div>
+
+            <br><br>
+            <h6>5) cURL</h6>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-10" style="background-color:  #282828;border-radius: 10px;">
+              <code style="color: white;">
+                <br>curl --location --request GET 'http://api.stockpredict.ml/data/company_name'<br><br>
+              </code>
+            </div>
+            </div>
+
+            
+
+            <br><br>
+            <h6>6) Java unirest</h6>
+            <div class="row d-flex justify-content-center">
+              <div class="col-md-10" style="background-color:  #282828;border-radius: 10px;">
+              <code style="color: white;">
+                <br>Unirest.setTimeouts(0, 0);
+                <br>HttpResponse&lt;String&gt; response = Unirest.get("http://api.stockpredict.ml/data/company_name")
+                <br>  .asString();<br><br>
+              </code>
+            </div>
+            </div>
+            
           </div>
         </div>
       </div>
