@@ -110,7 +110,7 @@ mainRouter.route('/full/:sname')
         caseSensitive: true,
         sort: true
       });
-    const result = searcher.search(stockName);
+    var result = searcher.search(stockName);
     result=JSON.parse(JSON.stringify(result))
     if(result!=""){
     stockName=result[0].symbol
