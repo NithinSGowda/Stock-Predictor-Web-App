@@ -547,7 +547,7 @@ export class DashboardComponent implements OnInit {
 
         this.lineBigDashboardChartData = [
             {
-              label: "Data",
+              label: "Previous Data",
 
               pointBorderWidth: 1,
               pointHoverRadius: 7,
@@ -557,7 +557,6 @@ export class DashboardComponent implements OnInit {
 
               borderWidth: 2,
               data: this.fetchResult11
-              // data: [20,40,20,40,20,40,20,40,20,40,20,NaN]
             },
 
             // Predicted
