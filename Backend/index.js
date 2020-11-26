@@ -94,5 +94,4 @@ app.get('/logout', (req, res) => {
 
 app.use('/data', mainRouter);
 
-
 app.listen(80, () => console.log(`Example app listening on port!`))

@@ -16,7 +16,6 @@ mainRouter.route('/recent')
     res.setHeader("Content-Type","applicaton/json");
     res.statusCode=200;   
     stockModel.find({}).sort('-updatedAt').limit(8).exec(function(err, doc){
-        console.log(doc);
         res.send(doc);
     })
 })
@@ -37,6 +36,7 @@ mainRouter.route('/:sname')
     stockName=result[0].symbol
     var dateObj=new Date()
     dateObj.setDate(dateObj.getDate() - 1);  
+
     stockModel.find({ $query: {Name: stockName, createdAt: {$gt: dateObj}}, $orderby: { createdAt : -1 } }, function(err, doc){
         var obj = JSON.parse(JSON.stringify(doc));
         var resObj={}
@@ -88,6 +88,7 @@ mainRouter.route('/:sname')
                         res.send(obj)
                     });
                 }else{
+                    console.log(91);
                     res.redirect("https://stockpredict.ml")
                 }
                 
@@ -96,6 +97,7 @@ mainRouter.route('/:sname')
     });   
     }
     else{
+        console.log(101);
         res.redirect("https://stockpredict.ml")
     } 
 })
@@ -124,6 +126,7 @@ mainRouter.route('/full/:sname')
 
     python.on('close', (code) => {
         if(code!=0){
+            console.log(130);
             res.redirect("https://stockpredict.ml")
         }
         console.log(`child process close all stdio with code ${code}`);
@@ -131,6 +134,7 @@ mainRouter.route('/full/:sname')
         res.send(obj)
     })  
 }else{
+    console.log(138);
     res.redirect("https://stockpredict.ml")
 }
 })
