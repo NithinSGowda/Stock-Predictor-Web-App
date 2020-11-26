@@ -63,7 +63,7 @@ mainRouter.route('/:sname')
             res.send(resObj);
         }else{
             const {spawn} = require('child_process');
-            const python = spawn('python3.8', ['PYTHON/final.py',stockName]);
+            const python = spawn('python3', ['PYTHON/final.py',stockName]);
 
             python.stdout.on('data', function (data) {
                 console.log('Pipe data from python script ...');
@@ -111,7 +111,7 @@ mainRouter.route('/full/:sname')
     stockName=result[0].symbol
    
     const {spawn} = require('child_process');
-    const python = spawn('python3.8', ['PYTHON/chart.py',stockName]);
+    const python = spawn('python3', ['PYTHON/chart.py',stockName]);
 
     python.stdout.on('data', function (data) {
         console.log('Pipe data from python script ...');
