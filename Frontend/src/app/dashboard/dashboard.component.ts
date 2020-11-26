@@ -122,7 +122,7 @@ export class DashboardComponent implements OnInit {
 
     if(Stock){
       var news;
-      fetch('https://newsapi.org/v2/everything?q='+Stock+'&from=2020-11-15&sortBy=popularity&apiKey=4b82feb2582043058dfdfb45ead95157').then(response => response.text())
+      fetch('https://newsapi.org/v2/everything?q='+Stock+'&from=2020-11-15&sortBy=popularity&apiKey=f25afaff6be146fea5d43f7ccb1c88f0').then(response => response.text())
       .then(res2 => {
         var obj=JSON.parse(res2)
         i=1;
