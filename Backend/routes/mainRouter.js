@@ -70,22 +70,27 @@ mainRouter.route('/:sname')
             });
 
             python.on('close', (code) => {
-                console.log(`child process close all stdio with code ${code}`);
+                if(code==0){
+                    console.log(`child process close all stdio with code ${code}`);
 
-                obj=JSON.parse(fs.readFileSync('PYTHON/'+stockName+'.json'))
-                let obj2={}
-                obj2.Name=obj.Name
-                obj2.ClosingPrice=(obj.ClosingPrice).toString()
-                obj2.Volume=(obj.Volume).toString()
-                obj2.LSTM=(obj.LSTM).toString()
-                obj2.LstmAccuracy=(obj.LstmAccuracy).toString()
-                obj2.Arima=(obj.Arima).toString()
-                obj2.ArimaAccuracy=(obj.ArimaAccuracy).toString()
-                stockModel.create(obj2, function (err, objectInserted) {
-                    if (err) return console.log(err);
-                    console.log(objectInserted)
-                    res.send(obj)
-                });
+                    obj=JSON.parse(fs.readFileSync('PYTHON/'+stockName+'.json'))
+                    let obj2={}
+                    obj2.Name=obj.Name
+                    obj2.ClosingPrice=(obj.ClosingPrice).toString()
+                    obj2.Volume=(obj.Volume).toString()
+                    obj2.LSTM=(obj.LSTM).toString()
+                    obj2.LstmAccuracy=(obj.LstmAccuracy).toString()
+                    obj2.Arima=(obj.Arima).toString()
+                    obj2.ArimaAccuracy=(obj.ArimaAccuracy).toString()
+                    stockModel.create(obj2, function (err, objectInserted) {
+                        if (err) return console.log(err);
+                        console.log(objectInserted)
+                        res.send(obj)
+                    });
+                }else{
+                    res.redirect("https://stockpredict.ml")
+                }
+                
             })
         }
     });   

@@ -95,4 +95,4 @@ app.get('/logout', (req, res) => {
 app.use('/data', mainRouter);
 
 
-app.listen(8080, () => console.log(`Example app listening on port!`))
+app.listen(80, () => console.log(`Example app listening on port!`))
