@@ -19,15 +19,15 @@
         <div class="card-body">
           <h6> - Prediction Data </h6>
           <div >- Endpoint :
-            <a class="text-info" href="http://api.stockpredict.ml/data/">
-               http://api.stockpredict.ml/data/company_name </a>
+            <a class="text-info" href="https://api.stockpredict.ml/data/">
+               https://api.stockpredict.ml/data/company_name </a>
           </div>
         </div>
         <div class="card-body">
           <h6> - Previous data (Advanced) </h6>
           <div >- Endpoint : 
-            <a class="text-info" href="http://api.stockpredict.ml/data/full/">
-              http://api.stockpredict.ml/data/full/company_name </a>
+            <a class="text-info" href="https://api.stockpredict.ml/data/full/">
+              https://api.stockpredict.ml/data/full/company_name </a>
           </div>
         </div>
         <div class="card-body">
@@ -43,7 +43,7 @@
         <div class="card-body">
           <div >
             <a class="text-info" href="/apidoc">
-              Query: http://api.stockpredict.ml/data/aapl </a>
+              Query: https://api.stockpredict.ml/data/aapl </a>
           </div>
           <div>
             <span>Response :</span>
@@ -102,7 +102,7 @@
                   {{'}'}}<br>
                 {{'}'}});<br>
                 <br>
-                xhr.open("GET", "http://api.stockpredict.ml/data/company_name");
+                xhr.open("GET", "https://api.stockpredict.ml/data/company_name");
                 <br><br>
                 xhr.send();<br><br>
               </code>
@@ -116,7 +116,7 @@
                 <br>var request = require('request');<br>
                 var options = {{'{'}}<br>
                   'method': 'GET',<br>
-                  'url': 'http://api.stockpredict.ml/data/company_name',<br>
+                  'url': 'https://api.stockpredict.ml/data/company_name',<br>
                   'headers': {{'{'}}<br>
                   {{'}'}}<br>
                 {{'}'}};<br>
@@ -134,7 +134,7 @@
               <code style="color: white;">
                   <br>$client = new http\Client;
                   <br>$request = new http\Client\Request;
-                  <br>$request->setRequestUrl('http://api.stockpredict.ml/data/company_name');
+                  <br>$request->setRequestUrl('https://api.stockpredict.ml/data/company_name');
                   <br>$request->setRequestMethod('GET');
                   <br>$request->setOptions(array());
 <br>
@@ -151,7 +151,7 @@
               <code style="color: white;">
                <br>import requests
                <br>
-                <br>url = "http://api.stockpredict.ml/data/company_name"
+                <br>url = "https://api.stockpredict.ml/data/company_name"
 <br>
                 <br>response = requests.request("GET", url)
 <br>
@@ -166,7 +166,7 @@
             <div class="row d-flex justify-content-center">
               <div class="col-md-10" style="background-color:  #282828;border-radius: 10px;">
               <code style="color: white;">
-                <br>curl --location --request GET 'http://api.stockpredict.ml/data/company_name'<br><br>
+                <br>curl --location --request GET 'https://api.stockpredict.ml/data/company_name'<br><br>
               </code>
             </div>
             </div>
@@ -179,7 +179,7 @@
               <div class="col-md-10" style="background-color:  #282828;border-radius: 10px;">
               <code style="color: white;">
                 <br>Unirest.setTimeouts(0, 0);
-                <br>HttpResponse&lt;String&gt; response = Unirest.get("http://api.stockpredict.ml/data/company_name")
+                <br>HttpResponse&lt;String&gt; response = Unirest.get("https://api.stockpredict.ml/data/company_name")
                 <br>  .asString();<br><br>
               </code>
             </div>
