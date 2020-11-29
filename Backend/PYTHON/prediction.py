@@ -41,7 +41,7 @@ def predict(company):
                 dataY.append(dataset[i + look_back, 0])
             return np.array(dataX), np.array(dataY)
 
-        A = df['Close'].values
+        A = required_data['Close'].values
         forecast=time_steps
         for i in range(days+1):
             required_data = A
