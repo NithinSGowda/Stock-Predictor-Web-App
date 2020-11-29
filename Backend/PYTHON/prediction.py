@@ -28,6 +28,7 @@ def predict(company):
 
     def forecastlstm(required_data,days):
         time_steps = 20
+        df=required_data
         required_data=required_data.to_numpy()
         scaler=MinMaxScaler(feature_range = (0, 1))
         required_data = required_data.reshape(-1,1)
@@ -41,7 +42,7 @@ def predict(company):
                 dataY.append(dataset[i + look_back, 0])
             return np.array(dataX), np.array(dataY)
 
-        A = required_data['Close'].values
+        A = df['Close'].values
         forecast=time_steps
         for i in range(days+1):
             required_data = A
