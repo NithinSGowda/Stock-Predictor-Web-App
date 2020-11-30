@@ -158,7 +158,7 @@ export class DashboardComponent implements OnInit {
       }
       else{
       document.querySelector('.name'+j).innerHTML=obj[i].Name
-      document.querySelector('.name'+i).setAttribute("href","/dashboard?s="+"obj[i].Name")
+      document.querySelector('.name'+i).setAttribute("href","/dashboard?s="+obj[i].Name)
       arr.push(obj[i].Name)
       var ClosingPricelist=obj[i].ClosingPrice.split(',')
       var Lstmlist=obj[i].LSTM.split(',')
