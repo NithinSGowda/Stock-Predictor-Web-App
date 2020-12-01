@@ -222,7 +222,7 @@ export class DashboardComponent implements OnInit {
           pointHoverBorderColor: this.chartColor,
         }
       ];
-    this.lineBigDashboardChartLabels = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    this.lineBigDashboardChartLabels = ["FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN"];
     this.lineBigDashboardChartOptions = {
 
           layout: {
@@ -585,7 +585,7 @@ export class DashboardComponent implements OnInit {
             pointHoverBorderColor: this.chartColor,
           }
         ];
-        this.lineBigDashboardChartLabels = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+        this.lineBigDashboardChartLabels = ["FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC", "JAN"];
         this.lineBigDashboardChartOptions = {
 
               layout: {
