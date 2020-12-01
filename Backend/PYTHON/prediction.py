@@ -14,6 +14,8 @@ from pathlib import Path
 from statsmodels.tsa.arima_model import ARIMA
 from statsmodels.tsa.arima_model import ARIMAResults
 from sklearn import metrics
+import datetime
+import dateutil.relativedelta
 
 company=sys.argv[1]
 def predict(company):
@@ -28,7 +30,6 @@ def predict(company):
 
     def forecastlstm(required_data,days):
         time_steps = 20
-        df=required_data
         required_data=required_data.to_numpy()
         scaler=MinMaxScaler(feature_range = (0, 1))
         required_data = required_data.reshape(-1,1)
@@ -87,27 +88,31 @@ def predict(company):
     acc_lstm=100-np.mean(MAPE_lstm)
     acc_arima=100 - np.mean(MAPE_arima)
 
-    df1 = yf.download(company,start='2019-12-31',interval='1mo')
-
-    df1.dropna(inplace=True)
-    df.reset_index(inplace=True)
-    df1.drop(['Open','High','Adj Close','Low'], axis=1, inplace=True)
-    df1.drop(df1.index[[-1]],inplace=True)
     v=list(df.tail(1).Close)
-    volume=list(df1.Volume)
+    df.reset_index(inplace=True)
+    per = df.Date.dt.to_period("M")
+    g = df.groupby(per)
+    sum=(g.sum())
+    volume=list(sum.tail(12).Volume)
+    end=pd.datetime.now().date()-dateutil.relativedelta.relativedelta(months=1)
+    start=end-dateutil.relativedelta.relativedelta(months=10)
+    df1 = yf.download(company,start=start,end=end,interval='1mo')
+    df1.dropna(inplace=True)
     Price=list(df1.Close)
-    Price.pop()
     Price.append(v[0])
-    Price.append(predicted_list[3])
+    Price.append(np.mean(predicted_list))
+
 
     with open("PYTHON/"+company+".json", "w") as write_file:
-        json.dump({ 'Name' : company,
+        json.dump({ 
+            'Name' : company,
             'ClosingPrice' : Price , 
             'Volume' : volume , 
             'LSTM' : predicted_list ,
             'LstmAccuracy' : acc_lstm , 
             'Arima' : fc_series ,
-            'ArimaAccuracy' : acc_arima },write_file)
+            'ArimaAccuracy' : acc_arima 
+    },write_file)
 
 
 if __name__ == '__main__':
