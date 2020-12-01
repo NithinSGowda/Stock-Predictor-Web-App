@@ -100,7 +100,8 @@ export class DashboardComponent implements OnInit {
         this.fetchResult6=(JSON.parse(res)).ArimaAccuracy
         this.fetchResult11=[...this.fetchResult1]
         this.fetchResult12=[...this.fetchResult1]
-    //     // console.table(JSON.parse(res));
+        document.querySelector('.navbar-brand').innerHTML=(JSON.parse(res)).Name + "'s stock"
+
         for(i=0;i<12;i++){
           if(i<11){
             this.fetchResult12[i]=NaN
