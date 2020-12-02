@@ -105,9 +105,9 @@ def predict(company):
             'ClosingPrice' : Price , 
             'Volume' : volume , 
             'LSTM' : predicted_list ,
-            'LstmAccuracy' : acc_lstm , 
+            'LstmAccuracy' : round(acc_lstm,2) , 
             'Arima' : fc_series ,
-            'ArimaAccuracy' : acc_arima },write_file)
+            'ArimaAccuracy' : round(acc_arima,2) },write_file)
 
 
 if __name__ == '__main__':
